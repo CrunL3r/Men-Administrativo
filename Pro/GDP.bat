@@ -55,7 +55,8 @@ goto :Menu
 cls
 set /p pre1=Quieres que sea una lista detallada "csv" o  simple "txt"?
 if %pre1%x==x echo Introduce un valor entre csv o txt. & pause & goto :glae
-if %errorlevel%==1 goto :imp1
+if %pre1%==csv & %pre1%==txt goto :imp1
+goto :Menu
 
 :Help
 cls
@@ -74,13 +75,10 @@ goto :Menu
 :imp1
 cls
 echo ----------------------------[%time%]-------------------------- >> Log\Pro.log
-if %pre1%==csv tasklist /v /fo csv>Pro/list/lista.csv
-if %errorlevel%==0 echo Creado el archivo externo lista.csv dentro del directorio Pro\list 
-if %pre1%==txt tasklist /svc /fo list>Pro/list/lista.txt 
-if %errorlevel%==0 echo Creado el archivo externo lista.txt dentro del directorio Pro\list
+if %pre1%==csv tasklist /v /fo csv>Pro/list/lista.csv  & echo Creado el archivo externo lista.csv dentro del directorio Pro\list 
+if %pre1%==txt tasklist /svc /fo list>Pro/list/lista.txt & echo Creado el archivo externo lista.txt dentro del directorio Pro\list
 echo Creado archivo externo en el directo Pro\list >> Log\Pro.log
 pause
-set afir=
 goto :Menu
 
 :sal
