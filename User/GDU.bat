@@ -2,7 +2,6 @@
 rem Andreu Llabres Bañuls
 rem GDU.bat = Gestión De Uusuarios
 echo ----------------------------[%date%]-------------------------- >> Log\Us.log
-echo ----------------------------[%time%]-------------------------- >> Log\Us.log
 :Menu
 cls
 echo ================================================
@@ -16,6 +15,9 @@ echo =    4. BORRAR USUARIO                         =
 echo =    5. AYUDA                                  =
 echo =    6. SALIR                                  =
 echo ================================================
+set us=
+set nam=
+set pas=
 set Or=
 set /p Or=Introduce una accion[1-6]:
 if %Or%x==x echo Introduce un parametro valido entre el 1 y 6.  & pause & goto :Menu
@@ -46,6 +48,7 @@ if %us%==administrador goto adm
 goto :imp2
 
 :adm
+rem Crear usuario con permisos administrativos
 net localgroup administradores %nam% /add
 goto :imp2
 
@@ -55,7 +58,7 @@ rem Cambiar password del usuario
 cls
 set /p nam=Como se llama el usuario?
 if %nam%x==x echo Introduce el nombre del usuario. & pause & goto :cpdu
-set /p nam=Cual sera la password?
+set /p pas=Cual sera la password?
 net user %nam% %pas%
 goto :imp3
 
@@ -87,7 +90,6 @@ goto :Menu
 
 :imp1
 echo ----------------------------[%time%]-------------------------- >> Log\Us.log
-echo -------------------------------------------------------------- >> Log\Us.log
 net user >> Log\Us.log
 echo >> Log\Us.log
 pause
@@ -98,19 +100,17 @@ cls
 echo Creado el usuario %nam% con las contrasena %pas% !!
 pause
 echo ----------------------------[%time%]-------------------------- >> Log\Us.log
-echo -------------------------------------------------------------- >> Log\Us.log
 echo El usuario %nam% con la contraseña %pas% del tipo %us% ha sido creado. >> Log\Us.log
 goto :Menu
 
 
 :imp3
 cls
-echo La nueva contrasena del usuario %us% es %pas% !!
+echo La nueva contrasena del usuario %nam% es %pas% !!
 pause
 echo ----------------------------[%time%]--------------------------- >> Log\Us.log
-echo --------------------------------------------------------------- >> Log\Us.log
 echo El usuario %nam% con la contraseña %pas% del tipo %us% ha sido creado. >> Log\Us.log
-goto _Menu
+goto :Menu
 
 
 :imp4
@@ -118,13 +118,9 @@ cls
 echo El usuario %nam% ha sido elimniado del sistema !!
 pause
 echo ----------------------------[%time%]--------------------------- >> Log\Us.log
-echo --------------------------------------------------------------- >> Log\Us.log
 echo El usuario %nam% ha sido eliminado del sistema. >> Log\Us.log
 goto :Menu
 
 :sal
 set Or=
-set us=
-set nam=
-set pas=
 call ..\Menu.bat
